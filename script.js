@@ -15,9 +15,8 @@ const renderProductsItem = ({title = 'Empty', price = 0}) => {
             </div>`;
 };
 
-const renderProductsList = (list=[{title: 'Empty', price: 0}]) => {
+const renderProductsList = (list) => {
     document.querySelector('.products-list').innerHTML =
-        list.map(item => renderProductsItem(item)).join('');
         list.map(item => renderProductsItem(item)).join('');
 }
 
