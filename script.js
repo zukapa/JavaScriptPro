@@ -1,13 +1,15 @@
 const products = [
-    {title: 'bread', price: 3},
-    {title: 'milk', price: 1},
-    {title: 'wafer', price: 3},
-    {title: 'sugar', price: 4},
-    {title: 'tea', price: 5},
+    {title: 'Bread', price: 30},
+    {title: 'Milk', price: 10},
+    {title: 'Wafer', price: 30},
+    {title: 'Sugar', price: 40},
+    {title: 'Tea', price: 50},
+    {}
 ];
 
-const renderProductsItem = (title, price) => {
+const renderProductsItem = ({title = 'Empty', price = 0}) => {
     return `<div class="products-item">
+                <img class=product-image></img>
                 <h4>${title}</h4>
                 <p>${price}</p>
             </div>`;
@@ -15,7 +17,7 @@ const renderProductsItem = (title, price) => {
 
 const renderProductsList = (list) => {
     document.querySelector('.products-list').innerHTML =
-        list.map(item => renderProductsItem(item.title, item.price)).join('');
+        list.map(item => renderProductsItem(item)).join('');
 }
 
 renderProductsList(products);
