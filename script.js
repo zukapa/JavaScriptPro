@@ -32,9 +32,7 @@ class Products {
     }
 
     calculationTotalCost() {
-        let totalCost = 0;
-        this.products.map(product => Object.keys(product).length === 0 ? totalCost : totalCost += product.price);
-        return totalCost;
+        return this.products.reduce((accumulator, product) => Object.keys(product).length === 0 ? accumulator : accumulator += product.price, 0);
     }
 
     render() {
