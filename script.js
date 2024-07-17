@@ -1,22 +1,30 @@
-const products = [
-    {title: 'Bread', price: 30},
-    {title: 'Milk', price: 10},
-    {title: 'Wafer', price: 30},
-    {title: 'Sugar', price: 40},
-    {title: 'Tea', price: 50},
-    {}
-];
+URL = 'https://raw.githubusercontent.com/GeekBrainsTutorial/online-store-api/master/responses'
+URN = '/catalogData.json'
+
+const getDataAPI = (url, callback) => {
+    return new Promise((resolve, reject) => {
+        let xhr = new XMLHttpRequest();
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4) {
+                callback(xhr.responseText);
+                resolve();
+            }
+        }
+        xhr.open('GET', url, true);
+        xhr.send();
+    });
+}
 
 class Product {
-    constructor({title = 'Empty', price = 0}) {
-        this.title = title;
+    constructor({product_name = 'Empty', price = 0}) {
+        this.product_name = product_name;
         this.price = price;
     }
     
     render() {
         return `<div class="products-item">
                     <img class=product-image></img>
-                    <h4>${this.title}</h4>
+                    <h4>${this.product_name}</h4>
                     <p>${this.price}</p>
                 </div>`;
     }
@@ -28,13 +36,13 @@ class Products {
     }
 
     getProducts() {
-        this.products = products;
+        return getDataAPI(`${URL}${URN}`, (products) => {
+            this.products = JSON.parse(products);
+        })
     }
 
     calculationTotalCost() {
-        let totalCost = 0;
-        this.products.map(product => Object.keys(product).length === 0 ? totalCost : totalCost += product.price);
-        return totalCost;
+        return this.products.reduce((accumulator, product) => Object.keys(product).length === 0 ? accumulator : accumulator += product.price, 0);
     }
 
     render() {
@@ -48,5 +56,6 @@ class Products {
 }
 
 const productsShop = new Products();
-productsShop.getProducts();
-productsShop.render();
+productsShop.getProducts().then(() => {
+    productsShop.render();
+})
