@@ -1,13 +1,12 @@
 URL = 'https://raw.githubusercontent.com/GeekBrainsTutorial/online-store-api/master/responses'
 URN = '/catalogData.json'
 
-const getDataAPI = (url, callback) => {
+const getDataAPI = (url) => {
     return new Promise((resolve, reject) => {
         let xhr = new XMLHttpRequest();
         xhr.onreadystatechange = function () {
             if (xhr.readyState === 4) {
-                callback(xhr.responseText);
-                resolve();
+                resolve(xhr.responseText);
             }
         }
         xhr.open('GET', url, true);
@@ -36,7 +35,7 @@ class Products {
     }
 
     getProducts() {
-        return getDataAPI(`${URL}${URN}`, (products) => {
+        return getDataAPI(`${URL}${URN}`).then(products => {
             this.products = JSON.parse(products);
         })
     }
