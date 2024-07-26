@@ -1,60 +1,43 @@
 URL = 'https://raw.githubusercontent.com/GeekBrainsTutorial/online-store-api/master/responses'
 URN = '/catalogData.json'
 
-const getDataAPI = (url) => {
-    return new Promise((resolve, reject) => {
-        let xhr = new XMLHttpRequest();
-        xhr.onreadystatechange = function () {
-            if (xhr.readyState === 4) {
-                resolve(xhr.responseText);
-            }
+const { createApp } = Vue
+
+createApp({
+    data() { 
+        return {
+            products: [],
+            filteredProducts: [],
+            searchLine: '',
+            isVisibleCart: false
         }
-        xhr.open('GET', url, true);
-        xhr.send();
-    });
-}
+    },
 
-class Product {
-    constructor({product_name = 'Empty', price = 0}) {
-        this.product_name = product_name;
-        this.price = price;
-    }
-    
-    render() {
-        return `<div class="products-item">
-                    <img class=product-image></img>
-                    <h4>${this.product_name}</h4>
-                    <p>${this.price}</p>
-                </div>`;
-    }
-}
+    methods: {
+        getDataAPI(url) {
+            return new Promise((resolve, reject) => {
+                let xhr = new XMLHttpRequest();
+                xhr.onreadystatechange = function () {
+                    if (xhr.readyState === 4) {
+                        resolve(xhr.responseText);
+                    }
+                }
+                xhr.open('GET', url, true);
+                xhr.send();
+            });
+        },
 
-class Products {
-    constructor() {
-        this.products = [];
-    }
+        calculationTotalCost() {
+            return this.products.reduce((accumulator, product) => Object.keys(product).length === 0 ? accumulator : accumulator += product.price, 0);
+        },
+    },
 
-    getProducts() {
-        return getDataAPI(`${URL}${URN}`).then(products => {
-            this.products = JSON.parse(products);
-        })
+    mounted() {
+        setTimeout(() => {
+            this.getDataAPI(`${URL}${URN}`).then(products => {
+                this.products = JSON.parse(products);
+                this.filteredProducts = this.products;
+            });
+        }, 3000) 
     }
-
-    calculationTotalCost() {
-        return this.products.reduce((accumulator, product) => Object.keys(product).length === 0 ? accumulator : accumulator += product.price, 0);
-    }
-
-    render() {
-        let productsHtml = '';
-        this.products.map(product => {
-            const productItem = new Product(product);
-            productsHtml += productItem.render();
-        });
-        document.querySelector('.products-list').innerHTML = productsHtml;
-    }
-}
-
-const productsShop = new Products();
-productsShop.getProducts().then(() => {
-    productsShop.render();
-})
+}).mount('#app')

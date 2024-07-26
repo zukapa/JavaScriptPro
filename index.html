@@ -4,19 +4,48 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script src="script.js" defer></script>
+    <!-- <script src="hamburger.js"></script> -->
+    <!-- <script src="index.js"></script> -->
     <title>Shop</title>
 </head>
-<body>
-    <header class="header">
-        <div class="container">
-            <button class="basket-button menu-button" type="button">Basket</button>
-        </div>
-    </header>
-    <main>
-        <div class="products-list container-content"></div>
-    </main>
-</body>
-<script src="script.js"></script>
-<!-- <script src="hamburger.js"></script> -->
-<!-- <script src="index.js"></script> -->
+<div id="app">
+    <body>
+        <header class="header">
+            <div class="container">
+                <div class="search-line">
+                    <input v-model="searchLine" class="search-line-item" type="text" />
+                    <button class="search-line-item menu-button">Search</button>
+                </div>
+                <button @click="isVisibleCart = true" class="basket-button menu-button" type="button">Basket</button>
+                    <Teleport to="body">
+                        <div v-if="isVisibleCart" class="basket">
+                            <p class="header-basket">Basket</p>
+                            <button @click="isVisibleCart = false" class="basket-close-button">Close</button>
+                        </div>
+                    </Teleport>
+            </div>
+        </header>
+        <main>
+            <p class="search-text">
+                {{ searchLine }}
+            </p>
+            <div v-if="filteredProducts.length > 0" class="products-list container-content">
+                <div class="products-item" v-for="product in filteredProducts">
+                    <img class=product-image></img>
+                    <h4>{{ product.product_name }}</h4>
+                    <p>{{ product.price }}</p>
+                </div>
+            </div>
+            <div v-else class="container-content plug-text">
+                <h4>
+                    Нет данных
+                </h4>
+            </div>
+        </main>
+    </body>
+</div>
+
+
 </html>
