@@ -3,11 +3,10 @@ URN = '/catalogData.json'
 
 const { createApp } = Vue
 
-createApp({
+const app = createApp({
     data() { 
         return {
             products: [],
-            filteredProducts: [],
             searchLine: '',
             isVisibleCart: false
         }
@@ -32,6 +31,15 @@ createApp({
         },
     },
 
+    computed: {
+        filteredProducts() {
+            return this.products.filter(({ product_name }) => {
+                const regExp = new RegExp(this.searchLine, 'i');
+                return regExp.test(product_name)
+            })
+        }
+    },
+
     mounted() {
         setTimeout(() => {
             this.getDataAPI(`${URL}${URN}`).then(products => {
@@ -39,5 +47,23 @@ createApp({
                 this.filteredProducts = this.products;
             });
         }, 3000) 
-    }
-}).mount('#app')
+    },
+})
+
+app.component('product-component', {
+    props: ['good'],
+    template: `
+        <div class="product-item">
+            <img class=product-image></img>
+            <h4>{{ good.product_name }}</h4>
+            <p>{{ good.price }}</p>
+        </div>`
+})
+
+app.component('products-component', {
+    props: ['products'],
+    template: `
+        <product-component class="products-item" v-for="product in products" :good="product"></product-component>`
+})
+
+app.mount('#app')
