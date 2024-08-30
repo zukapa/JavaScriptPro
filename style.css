@@ -58,7 +58,6 @@ html {
 .basket {
     display: flex;
     flex-flow: column;
-    justify-content: space-between;
     position: fixed;
     top: 20%;
     left: 50%;
@@ -79,6 +78,25 @@ html {
     margin-right: 10px;
     border: none;
     background: none;
+    margin-top: auto;
+}
+
+.product-into-basket-button {
+    width: 50px;
+    height: 45px;
+    align-self: end;
+    margin-bottom: 10px;
+    margin-right: 10px;
+    border: none;
+    background: none;
+}
+
+.delete-from-basket-button {
+    width: 50px;
+    height: 24px;
+    align-self: center;
+    border: none;
+    background: none;
 }
 
 .header-basket {
@@ -91,6 +109,16 @@ html {
     border-right: none;
     text-align: center;
     align-content: center;
+}
+
+.delete-from-basket-button:hover {
+    border: solid;
+    border-style: outset;
+}
+
+.delete-from-basket-button:active {
+    border: solid;
+    border-style: inset;
 }
 
 .menu-button:hover {
@@ -109,6 +137,16 @@ html {
 }
 
 .basket-close-button:active {
+    border: solid;
+    border-style: inset;
+}
+
+.product-into-basket-button:hover {
+    border: solid;
+    border-style: outset;
+}
+
+.product-into-basket-button:active {
     border: solid;
     border-style: inset;
 }
@@ -135,6 +173,14 @@ html {
 .product-image {
     width: 200px;
     height: 200px;
+}
+
+.basket-products-item {
+    display: flex;
+}
+
+.basket-product-info {
+    margin: 10px 10px 10px 10px;
 }
 
 .plug-text {

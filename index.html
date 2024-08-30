@@ -15,7 +15,7 @@
         <header class="header">
             <div class="container">
                 <search-component v-model="searchLine"></search-component>
-                <button-basket-component @change-visible-basket="changeVisibleBasket">Basket</button-basket-component>
+                <button-shop @button-action="changeVisibleBasket" class="menu-button">Basket</button-shop>
             </div>
         </header>
         <main>
@@ -23,7 +23,7 @@
                 {{ searchLine }}
             </p>
             <div v-if="filteredProducts.length > 0" class="products-list container-content">
-                <products-component :products="filteredProducts"></products-component>
+                <products-component :post-into-basket="postDataAPI" :products="filteredProducts"></products-component>
             </div>
             <div v-else class="container-content plug-text">
                 <h4>
@@ -31,7 +31,7 @@
                 </h4>
             </div>
         </main>
-        <basket-component :visible-basket="isVisibleCart" @change-visible-basket="changeVisibleBasket"></basket-component>
+        <basket-component v-if="isVisibleCart" :change-visible-basket="changeVisibleBasket" :get-basket="getDataAPI" :delete-from-basket="postDataAPI"></basket-component>
     </body>
 </div>
 </html>
