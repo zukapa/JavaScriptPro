@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <title>Shop</title>
+<script defer src="index.js"></script></head>
+<div id="app">
+    <body>
+        <header class="header">
+            <div class="container">
+                <search-component v-model="searchLine"></search-component>
+                <button-shop @button-action="changeVisibleBasket" class="menu-button">Basket</button-shop>
+            </div>
+        </header>
+        <main>
+            <p class="search-text">
+                {{ searchLine }}
+            </p>
+            <div v-if="filteredProducts.length > 0" class="products-list container-content">
+                <products-component :post-into-basket="postDataAPI" :products="filteredProducts"></products-component>
+            </div>
+            <div v-else class="container-content plug-text">
+                <h4>
+                    Нет данных
+                </h4>
+            </div>
+        </main>
+        <basket-component v-if="isVisibleCart" :change-visible-basket="changeVisibleBasket" :get-basket="getDataAPI" :delete-from-basket="postDataAPI"></basket-component>
+    </body>
+</div>
+</html>
